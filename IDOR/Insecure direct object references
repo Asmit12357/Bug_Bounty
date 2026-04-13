@@ -1,0 +1,9 @@
+When i logged into the lab it had a live chat tab where one can chat 
+with others and even download a transcript of it after chatting.
+When you click on view transcript the browser sends a request to 
+acquire the transcript.
+It generally just increases the number everytime you download a 
+transcript hence i was able to deduce that transcript 1.txt has something important cause the very first transcript that got downloaded was 2.txt not 1.txt itself and from their on I started tracing requests on burpsuite and looked through all requests in http history and was able to find the get request where the file was produced or requested-
+GET /download-transcript/5.txt HTTP/2
+I sent this request to repeater and modified the file name from 5.txt to 1.txt and sent the request the response was a conversation in which the password was revealed.
+I used that password to login hence completing the lab.

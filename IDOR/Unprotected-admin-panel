@@ -1,6 +1,0 @@
-This lab is easily the easiest one among IDOR labs.
-All I had to do was add robots.txt in URL to see the admin-panel path for url.
-Devs often hide it there to protect it from search engines but it is still prone to humans.
-After logging in through the acquired path from robot.txt i deleted carlos user 
-and solved the lab.
-
