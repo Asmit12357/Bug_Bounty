@@ -1,0 +1,7 @@
+Lab:User ID controlled by request parameter, with unpredictable user IDs
+
+This was the first portswigger lab wih blog-based website and i was supposed to find GUID an identifier used by this site to separate the users from each other and manage their identity.
+I had to find carlos's API key so i had it in my mind that i should first look for a blog by him.
+Fortunately the first blog was itself by him and we could click on his name and it redirects me to another page and i could see the URL has an id assigned to his account, moving back to my account section their is a similar id in the URL. 
+I copied id of carlos and replaced it with my id in my account section and as expected i landed on carlos's account page 
+The API key was in front of me i copied it and submitted and received the golden message of lab completion.

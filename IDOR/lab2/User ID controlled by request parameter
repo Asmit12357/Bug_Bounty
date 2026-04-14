@@ -1,4 +1,4 @@
-#Lab: User ID controlled by request parameter
+Lab: User ID controlled by request parameter
 
 The first thing to do in this lab was to login using given credentials.
 To complete this lab i had to submit API key for a user named carlos.
