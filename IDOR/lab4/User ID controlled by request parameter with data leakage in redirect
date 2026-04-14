@@ -1,0 +1,13 @@
+Lab: User ID controlled by request parameter with data leakage
+ in redirect
+
+It is instructed that the lab has an access control vulnerability and
+i was supposed to figure out to exploit it in a way to find API key of
+carlos and submit it as our solution.
+First of all i logged in using the given credentials 
+When i access my account page i can see id=wiener therefore it clicks
+right away that i can use it as a way hence the next thing i did is
+isolate that URL in repeater and modified the request id to carlos 
+and what's next is i didn't got to his account but received his API key
+in the HTML code of the response body 
+I quickly copied the key and submitted the key as solution.
