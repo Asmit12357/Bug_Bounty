@@ -1,0 +1,9 @@
+#Lab: User ID controlled by request parameter
+
+The first thing to do in this lab was to login using given credentials.
+To complete this lab i had to submit API key for a user named carlos.
+When i visit my account page i could see an id in the URL indicating a 
+possible id-based setup of user-management system.
+I pulled that URL out from burpsuite and sent that URL to repeater for using it to manipulate id value and hence somehow getting the access of user carlos.
+I changed the assigned username making it id=carlos and send.
+Voila! There we have it, i was able to log in as carlos and accessed his account page to retrieve his API key.
