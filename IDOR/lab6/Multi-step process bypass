@@ -1,0 +1,10 @@
+Lab:Multi-step process with no access control on one step
+This lab was pretty interesting and to be honest i did struggled here
+a bit but in the end things worked out 
+As the name suggests surely the issue is with no access control so
+anyone can access and perform a function that should require admin access.
+To solve this lab we had to promote ourselves to admin
+we are given both an admin and a user account so for testing i first logged in as admin checked the admin tab where i found out their is a functionality to upgrade and downgrade a user 
+I quickly tested it out and saved the response POST request in repeater to try out things with it.
+I went back and logged in as user to find out about things accessible as that further i went to my account to find my session cookie which i copied and replaced with the admin cookie in the repeater request
+it failed but soon i discovered in the bottom there is a parameter detailing who is getting promoted next thing is me replacing that from carlos to wiener or my uername for this lab and that is how i received the message of successful lab completion as sending it promoted my user id to admin 
