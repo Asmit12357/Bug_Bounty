@@ -1,0 +1,7 @@
+Lab: Referer-based access control 
+
+This was another broken-access control lab so from the last lab experience i knew what i had to do 
+Hence i went straight to admin panel to save an upgrade request but surprisingly this time they had direct promotion instead of a yes/no confirmation after clicking on upgrade probabaly because it was referer based this time
+Anyways,i saved the request and went further by logging in as a normal user now what's next was i copied my session cookie and pasted it on the promotion request sent by admin for promotion
+Since it was a referer based i had to edit the URL to get it working and since it didn't have confirmation but it had the username to be promoted in the request which i edited from carlos to wiener and i sent the request and it all worked out
+Soon i received the orange flashing line that lab completed successfully 

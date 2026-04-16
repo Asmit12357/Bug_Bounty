@@ -1,0 +1,10 @@
+Lab:SQL injection vulnerability in WHERE clause allowing retrieval
+of hidden data
+Well it was my first time doing an SQL injection lab and i had no idea 
+where to edit the URL to inject the SQL code, so i just started 
+looking every possible place 
+From the question i knew the request i had to play with and since it
+is used for filtering the data surely it was a product sorting request
+so i ended up using the hint as i had no idea where to interfere exactly 
+and from the hint i edited URL and just in the first go i was able to 
+succeed in it as i received the lab completion message shortly.
