@@ -1,0 +1,18 @@
+Lab:SQL injection UNION attack, determining the number of columns 
+returned by the query
+
+Well I did not knew SQL injection can be used in this way as well 
+like fetching data using UNION which is a keyword in SQL used to 
+add results from different queries.
+
+Here the vulnerability lies in sorting feature of website which can be edited to perform an attack using UNION keyword along with it the only hard part is you don't know how many columns it has so you have to keep adding NULL until the response becomes OK from server side
+Here i only used 3 NULL placeholders as the table only had that many columns per row i digged more into this type of attack's motive and found out that it is all about apping how many columns per row it has so to plan the exploitation further.
+
+Payload used:'+UNION+SELECT+NULL,NULL,NULL--
+
+Explanation: here we used three null values because it failed at first and second but with third null i received a server O response 
+
+Steps to reproduce:
+1.Perform a sorting and capture the request and send it to repeater
+2.Enter the basic single NULL payload in category parameter
+4.Keep adding NULL values until you receive an OK response
