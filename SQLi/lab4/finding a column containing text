@@ -1,0 +1,23 @@
+This lab is quite a progression over last one as we found out number of
+columns a table has using NULL values and UNION keyword of SQL which
+combines result of two queries so it has to return same number of 
+columns as the last query.
+
+This time we used string datatype replacement on NULL values one by one 
+and after replacing second NULL value we receives a status code 200 
+whuch assured that the second column consists a collection of string 
+datatype entries which can be exploited further to access the entries.
+
+Payload used:'+UNION+SELECT+NULL,'gjrepl',NULL--
+
+Explanation: It was a progression over last one this time sowe figured 
+out total possible entries and then proceeded to test string datatype
+over NULL values to find the column that has string datatype.
+
+Steps to reproduce:
+1.Perform a sorting and capture the request and send it to repeater
+2.Enter the basic single NULL payload in category parameter
+4.Keep adding NULL values until you receive an OK response
+4.Now change the NULL values one by one with string or the datatype 
+whose column you are looking for
+5.We keep doing it for string and found out the second column has it.
