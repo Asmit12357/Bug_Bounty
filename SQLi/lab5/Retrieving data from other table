@@ -1,0 +1,20 @@
+Lab:SQL injection UNION attack, retrieving data from other tables
+
+This was another UNION attack where we used simple queries first to determine the number of columns and the datatype they are using.
+I quickly did that and found out it has two columns with string datatype and surely they had username and password since i was supposed to gather data around it to login as admin.
+I quickly built up a query injection to take out that data
+and as you can see in image it was a success.
+I logged in as admin and it worked out well.
+
+Payload used:'+UNION+SELECT+username,+password+FROM+users--
+
+Steps to reproduce:
+1.Perform a sorting and capture the request and send it to repeater
+2.Enter the basic single NULL payload in category parameter
+4.Keep adding NULL values until you receive an OK response
+4.Now change the NULL values one by one with string or the datatype 
+whose column you are looking for
+5.We keep doing it for string and found out the first and second column has it.
+6.We used a query with username and password to extract that data from the table users 
+
+

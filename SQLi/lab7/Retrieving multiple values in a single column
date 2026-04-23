@@ -1,0 +1,23 @@
+Lab: SQL injection UNION attack, retrieving multiple values in a single column
+This was a UNION attack where the challenge was to extract both usernames and passwords, even though only one column in the results was suitable for displaying string data. I used simple queries first to determine that the table had two columns, but only one would reliably show my injected data.
+
+I built a query that concatenates the username and password fields with a separator (~) so I could pull all the credentials at once. This allowed me to bypass the limitation of only having one usable display column.
+
+As you can see in the image, the injection was a success. I successfully retrieved the credentials for carlos, administrator, and wiener.
+
+Payload used:
+'+UNION+SELECT+NULL,username||'~'||password+FROM+users--
+
+Steps to reproduce:
+
+1.Navigate to the category filter and send the request to Burp Repeater.
+
+2.Confirm the number of columns using ' UNION SELECT NULL,NULL--.
+
+3.Test which column is visible on the page by injecting a string (e.g., 'a') into each NULL position one by one.
+
+4.Once the display column is identified (in this case, the second column), use the string concatenation operator (|| for PostgreSQL/Oracle) to join the username and password fields from the users table.
+
+5.Use a separator like '~' or ':' between the fields to make the output easy to read.
+
+6.Send the request and extract the administrator's password from the rendered list in the response.

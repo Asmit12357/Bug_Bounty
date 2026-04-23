@@ -1,0 +1,24 @@
+Lab:SQL injection attack, querying the database type and version on MySQL and Microsoft
+
+This was a UNION attack where the goal was to identify the specific version of the database running on the server. I used simple queries first to determine the number of columns and which ones could hold string data.
+
+I found out the table has two columns. The first column was able to display the output I needed. By using a database-specific global variable, I was able to pull the version information directly into the web page.
+
+As you can see in the image, the injection was a success and it returned the Ubuntu/MySQL version details in the table.
+
+Payload used:
+'+UNION+SELECT+@@version,+NULL#
+
+Steps to reproduce:
+
+1.Navigate to a category filter and capture the request in Burp Suite, then send it to Repeater.
+
+2.Use a series of ' ORDER BY X-- or ' UNION SELECT NULL, NULL-- payloads to confirm the table has 2 columns.
+
+3.Test each column to see which one can display string data by replacing NULL with a string like 'a'.
+
+4.Once the display column is found, replace NULL with the MySQL-specific command @@version.
+
+5.Add a comment character (# or -- ) at the end to nullify the rest of the original SQL query.
+
+6.Send the request and locate the database version string (e.g., 8.0.42...) in the rendered HTML response.
