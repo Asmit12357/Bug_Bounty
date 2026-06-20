@@ -1,0 +1,11 @@
+Lab: Method-based access control can be circumvented
+
+This lab implements access controls based partly on the HTTP method of the request which sounds confusing at first but makes sense once you actually see it in action.
+The goal here is to log in as wiener (a normal user) and promote myself to admin without ever touching the actual admin account.
+I first logged in as administrator to check out the admin panel and get familiar with the upgrade/downgrade functionality. I selected carlos there, hit upgrade, captured that request and sent it to repeater so I could mess around with it later.
+Then I logged out and logged back in as wiener to grab my own session cookie from my account page.
+I pasted my wiener session into the captured admin request expecting it to work but it gave me an unauthorized error which honestly threw me off for a bit since I assumed the cookie swap alone would be enough like in previous IDOR labs.
+I tried changing the username parameter from carlos to wiener while still using my session but still got unauthorized.
+This is where I needed a nudge in the right direction since it genuinely didn't click for me at first. Turns out the access control here was tied specifically to the POST method, not the endpoint itself, so even with the right session and the right username the POST request was still blocked.
+I changed the request method from POST to GET while keeping the same endpoint, parameters and my wiener session intact and sent it through.
+That one switch was all it took. The server responded with a 302 redirecting to /admin which meant the backend only checked permissions properly on POST requests and completely forgot to enforce the same check on GET, so the upgrade went through and wiener became admin.

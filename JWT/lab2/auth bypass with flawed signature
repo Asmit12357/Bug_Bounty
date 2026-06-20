@@ -1,0 +1,11 @@
+Lab: JWT authentication bypass via flawed signature verification
+
+This lab builds on the previous one but isn't as straightforward since this backend does actually attempt to verify the signature, just badly.
+Compared to the unverified signature lab, this one has proper signature verification in place which initially had me thinking the same payload edit trick wouldn't work here, and it didn't when I tried it directly.
+Using the JWT editor extension again I looked at the header section of the token and noticed the alg field which specifies what signing algorithm is being used.
+The flaw here is that some backends support an alg value of none which tells the server not to verify any signature at all, and if the server doesn't explicitly reject that algorithm it'll just accept the token as valid.
+I changed the alg value in the header from its original value to none, then went into the payload and changed the sub field the same way as before from wiener to admin.
+Since the algorithm was now set to none I removed the signature entirely, leaving the token as just header and payload with no third segment.
+Sent that through and the server accepted it without any verification since it had no signature to check against in the first place, putting me in as admin again.
+Same as before, went into the admin panel and deleted carlos to confirm and complete the lab.
+The difference between this and the first JWT lab really comes down to how the bypass happens, one skips verification because there isn't any to begin with, the other forces the server into skipping verification by abusing a legacy algorithm option it shouldn't have honored.

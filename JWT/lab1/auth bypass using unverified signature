@@ -1,0 +1,9 @@
+Lab: JWT authentication bypass via unverified signature
+
+This one deals with JWTs which I hadn't really worked with hands on before this lab so it was a good intro into how broken signature verification can completely undermine the token's purpose.
+The idea behind a JWT is that the signature is supposed to guarantee the payload hasn't been tampered with, but this lab's backend doesn't actually verify the signature at all, it just trusts whatever is inside the payload.
+I logged in normally as wiener and captured the request that had my JWT in it, then dropped it into the JWT editor extension in Burp to see the breakdown of header, payload and signature.
+Looking through the payload section I found a sub field that basically tells the server who you are, and right next to it was a role-type field tied to my account.
+I changed that value in the payload from wiener to admin without touching the signature at all since the whole point of the vulnerability is that the server never checks if the signature actually matches the new payload.
+I sent the modified token through and the server accepted it without any complaints, treating me as admin purely based on what I claimed in the payload.
+From there it was the usual flow, accessed the admin panel and deleted carlos's account as instructed to confirm the privilege escalation actually worked, which marked the lab complete.
