@@ -1,0 +1,72 @@
+Lab Overview
+
+Lab Name: DOM XSS in document.write sink using source location.search
+
+Category: Cross-Site Scripting (XSS)
+
+Difficulty: Apprentice
+
+Objective: Exploit a DOM-based XSS vulnerability caused by user-controlled input from "location.search" being written directly to the page through the "document.write()" sink.
+
+Vulnerability Description
+
+This lab contains a DOM-based Cross-Site Scripting vulnerability. The application reads data from the URL query string using the JavaScript source "location.search" and dynamically writes it into the HTML page using the dangerous sink "document.write()".
+
+Since the user input is not properly sanitized or encoded before being inserted into the DOM, an attacker can inject arbitrary HTML or JavaScript code that executes in the victim's browser.
+
+While browsing the website I tested search functionality as indicated in lab description i searched for a random string 
+
+Inspecting the page source revealed that the search parameter was being processed by JavaScript and inserted into the page using:
+
+document.write(searchTerm)
+
+This indicated a potential DOM XSS vulnerability because user-controlled input flowed directly from "location.search" into "document.write()".
+
+Exploitation
+
+To verify exploitation, the following payload was supplied as the search parameter:
+
+"><svg onload=alert(1)>
+
+
+Why the Payload Works
+
+1. The "> closes the img tag.
+2. A new SVG element is created.
+3. The "onload" event executes automatically when the SVG loads.
+4. JavaScript "alert(1)" executes, confirming successful XSS.
+
+It can be used to:
+
+- Execute arbitrary JavaScript in a victim's browser.
+- Steal session tokens or sensitive information.
+- Perform actions on behalf of authenticated users.
+
+The vulnerability exists because there is no input validation, sanitization, or output encoding is performed.
+Remediation
+
+1. Avoid document.write()
+
+Replace unsafe DOM manipulation methods with safer alternatives such as:
+
+element.textContent = userInput;
+
+instead of:
+
+document.write(userInput);
+
+2. Context-Aware Output Encoding
+
+Encode user-controlled data before inserting it into HTML.
+
+3. Input Validation
+
+Validate and restrict user input to expected formats.
+
+4. Implement Content Security Policy (CSP)
+
+Deploy a strong CSP to reduce the impact of XSS vulnerabilities.
+
+Conclusion
+
+The application was vulnerable to DOM-based Cross-Site Scripting due to the unsafe use of "document.write()" with data sourced from "location.search". By injecting a crafted payload into the URL query string, arbitrary JavaScript execution was achieved, demonstrating a successful DOM XSS attack. The vulnerability can be mitigated through secure DOM manipulation practices, output encoding, input validation, and Content Security Policy implementation.

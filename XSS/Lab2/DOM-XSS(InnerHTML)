@@ -1,0 +1,118 @@
+PortSwigger Web Security Academy Lab: DOM XSS in innerHTML Sink Using Source location.search
+
+Lab Overview
+
+Lab Name: DOM XSS in innerHTML sink using source location.search
+
+Category: Cross-Site Scripting (XSS)
+
+Difficulty: Apprentice
+
+Objective: Exploit a DOM-based XSS vulnerability caused by user-controlled input from "location.search" being inserted into the page using the "innerHTML" sink.
+
+It is mentioned in lab description that the application contains a DOM-based Cross-Site Scripting (XSS) vulnerability. User-supplied data from the URL query string is retrieved via "location.search" and dynamically inserted into the page using the "innerHTML" property.
+
+Source
+
+location.search
+
+Sink
+
+element.innerHTML
+
+
+The search functionality was examined by supplying various inputs through the search parameter.
+
+Example:
+
+/search?search=123
+
+The search term appeared dynamically within the page. Inspecting the page source and browser Developer Tools revealed JavaScript similar to:
+
+document.getElementById("searchMessage").innerHTML =
+  "Results for: " + searchTerm;
+
+This indicated that user-controlled input from "location.search" was being written directly into the DOM using "innerHTML".
+
+Exploitation
+
+An initial payload using a "<script>" tag did not execute because browsers generally prevent script execution when inserted through "innerHTML".
+
+Payload tested:
+
+<script>alert(1)</script>
+
+To bypass this behavior we used an event-handler-based payload was used:
+
+<img src=1 onerror=alert(1)>
+
+How it worked:
+1. The application reads the search parameter from the URL.
+2. The value is inserted into the page using "innerHTML".
+3. The browser parses the injected HTML and creates an image element.
+4. The image source is invalid.
+5. The "onerror" event triggers automatically.
+6. JavaScript executes via "alert(1)".
+
+Proof of Exploitation
+
+When the crafted URL was loaded, a JavaScript alert box appeared, confirming successful execution of attacker-controlled code within the application's origin.
+
+This demonstrated a successful DOM-based XSS attack and completed the lab objective.
+
+Impact
+
+A successful DOM XSS vulnerability can enable an attacker to:
+
+- Hijack authenticated user sessions.
+- Steal sensitive information.
+- Modify page content.
+- Perform actions on behalf of logged-in users.
+
+Root Cause
+
+The vulnerability exists because untrusted user input flows directly from a DOM source into a dangerous HTML-rendering sink.
+
+Unsafe data flow:
+
+location.search → innerHTML → DOM XSS
+
+The application fails to sanitize or encode user input before inserting it into the page.
+
+Remediation
+
+1. Avoid innerHTML for Untrusted Data
+
+Use safer alternatives such as:
+
+element.textContent = userInput;
+
+or
+
+element.innerText = userInput;
+
+instead of:
+
+element.innerHTML = userInput;
+
+2. Sanitize User Input
+
+If HTML rendering is required, sanitize user-controlled content before insertion.
+
+3. Context-Aware Output Encoding
+
+Encode data according to the context in which it is rendered.
+
+4. Implement Content Security Policy (CSP)
+
+Deploy a restrictive CSP to reduce the impact of XSS vulnerabilities.
+
+Example:
+
+Content-Security-Policy:
+default-src 'self';
+script-src 'self';
+
+Conclusion
+
+The application was vulnerable to DOM-based Cross-Site Scripting because user-controlled data from "location.search" was inserted directly into the DOM using "innerHTML". By injecting a malicious HTML element containing an event handler, arbitrary JavaScript execution was achieved. The vulnerability can be mitigated by avoiding "innerHTML" for untrusted data, implementing proper sanitization and encoding, and deploying a strong Content Security Policy.
