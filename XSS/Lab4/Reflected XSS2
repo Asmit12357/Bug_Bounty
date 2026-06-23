@@ -1,0 +1,107 @@
+PortSwigger Web Security Academy Lab: Reflected XSS into JavaScript String with Single Quote and Backslash Escaped
+
+Lab Overview
+
+Lab Name: Reflected XSS into a JavaScript string with single quote and backslash escaped
+
+Category: Cross-Site Scripting (XSS)
+
+Difficulty: Apprentice
+
+Objective: Exploit a reflected XSS vulnerability where user input is embedded within a JavaScript string and single quotes and backslashes are escaped.
+
+Vulnerability Description
+
+The application contains a reflected Cross-Site Scripting (XSS) vulnerability. 
+User-supplied input is embedded directly into a JavaScript string within a script block.
+
+Although the application attempts to mitigate attacks by escaping single quotes and backslashes, 
+other characters remain unsanitized, allowing an attacker to break out of the JavaScript context and inject executable code.
+
+Source
+
+URL parameter
+
+Sink
+
+JavaScript string
+
+Reconnaissance
+
+The search functionality was tested by supplying various inputs.
+
+Example:
+
+/?search=test
+
+Inspecting the page source revealed code similar to:
+
+var searchTerm = 'test';
+
+Testing with special characters showed that single quotes and backslashes were escaped,
+but the application remained vulnerable to JavaScript context injection.
+
+Exploitation
+
+The following payload was used:
+
+'</script><script>alert(1)</script>'
+
+Why the Payload Works
+
+1. The application inserts user input inside a JavaScript string.
+2. The payload closes the existing script block.
+3. A new script tag is injected into the page.
+4. The browser parses the new script tag.
+5. JavaScript executes through the injected alert function.
+
+Proof of Exploitation
+
+After submitting the payload, a JavaScript alert box appeared immediately when the page loaded.
+
+This confirmed successful execution of attacker-controlled code within the application's origin.
+
+Impact
+
+A successful reflected XSS vulnerability can enable an attacker to:
+
+- Execute arbitrary JavaScript.
+- Hijack authenticated sessions.
+- Access sensitive user information.
+- Manipulate application content.
+- Conduct phishing attacks.
+- Perform actions as the victim user.
+
+Root Cause
+
+The vulnerability exists because untrusted input is embedded directly into executable JavaScript code without proper context-aware encoding.
+
+Unsafe data flow:
+
+Request Parameter → JavaScript String → Reflected XSS
+
+Escaping only single quotes and backslashes is insufficient to prevent JavaScript context injection.
+
+Remediation
+
+1. Avoid Direct JavaScript Injection
+
+Do not place user-controlled input directly inside script blocks.
+
+2. Use Context-Aware Encoding
+
+Encode output specifically for JavaScript contexts.
+
+3. Use Safe APIs
+
+Store user input as text rather than executable code whenever possible.
+
+4. Implement Content Security Policy (CSP)
+
+Restrict script execution through a strong CSP configuration.
+
+Conclusion
+
+The application was vulnerable to reflected Cross-Site Scripting because user-controlled input was embedded directly into a JavaScript string.
+Despite escaping single quotes and backslashes, it was possible to escape the intended context and inject executable JavaScript. 
+Proper JavaScript-context encoding, secure coding practices, and CSP implementation can effectively mitigate this vulnerability.

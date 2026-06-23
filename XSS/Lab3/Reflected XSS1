@@ -1,0 +1,105 @@
+Lab Overview
+
+Lab Name: Reflected XSS into attribute with angle brackets HTML-encoded
+
+Category: Cross-Site Scripting (XSS)
+
+Difficulty: Apprentice
+
+Objective: Exploit a reflected XSS vulnerability where user input is reflected inside an HTML attribute and angle brackets are HTML-encoded.
+
+Source
+
+URL parameter
+
+Sink
+
+HTML attribute value
+
+Reconnaissance
+
+The search functionality was tested by supplying arbitrary input through the search parameter.
+
+Example:
+
+/?search=test
+
+The supplied value was reflected within an input element:
+
+<input value="test">Further testing revealed that angle brackets were encoded:
+
+Input:
+
+<script>alert(1)</script>
+
+Output:
+
+<script>alert(1)</script>
+
+However, quotation marks were not properly handled, indicating the possibility of breaking out of the attribute context.
+
+Exploitation
+
+To escape the existing attribute value and inject a new event handler, the following payload was used:
+
+"onmouseover="alert(1)
+
+Encoded URL:
+
+https://LAB-ID.web-security-academy.net/?search=%22%20onmouseover=%22alert(1)
+
+Why the Payload Works
+
+1. The application reflects the search parameter inside an HTML attribute.
+2. The injected double quote closes the existing attribute value.
+3. A new event handler attribute is added.
+4. When the user moves the mouse over the affected element, the event fires.
+5. JavaScript executes through the injected onmouseover handler.
+
+Proof of Exploitation
+
+After submitting the payload and triggering the mouseover event, a JavaScript alert box appeared.
+
+This confirmed successful execution of attacker-controlled JavaScript and completed the lab objective.
+
+Impact
+
+A successful reflected XSS attack can allow an attacker to:
+
+- Execute arbitrary JavaScript in a victim's browser.
+- Steal session tokens and sensitive data.
+- Modify page content.
+- Perform actions on behalf of authenticated users.
+- Deliver phishing attacks through a trusted application.
+
+Root Cause
+
+The vulnerability exists because user-controlled data is inserted into an HTML attribute without proper context-aware encoding.
+
+Unsafe data flow:
+
+Request Parameter → HTML Attribute → Reflected XSS
+
+Although angle brackets are encoded, quotation marks are not properly handled, allowing attribute injection.
+
+Remediation
+
+1. Perform Context-Aware Encoding
+
+Encode user input specifically for HTML attribute contexts.
+
+2. Escape Quotation Marks
+
+Encode both single and double quotation marks before rendering user input.
+
+3. Validate User Input
+
+Apply strict input validation and allowlists where appropriate.
+
+4. Implement Content Security Policy (CSP)
+
+Deploy a restrictive CSP to reduce the impact of XSS vulnerabilities.
+
+Conclusion
+
+The application was vulnerable to reflected Cross-Site Scripting because user-controlled input was inserted into an HTML attribute without proper attribute-context encoding. By breaking out of the attribute value and injecting an event handler, arbitrary JavaScript execution was achieved. Proper output encoding, input validation, and CSP implementation can mitigate this vulnerability.

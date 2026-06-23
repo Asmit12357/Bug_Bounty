@@ -1,5 +1,3 @@
-PortSwigger Web Security Academy Lab: DOM XSS in innerHTML Sink Using Source location.search
-
 Lab Overview
 
 Lab Name: DOM XSS in innerHTML sink using source location.search
@@ -19,7 +17,6 @@ location.search
 Sink
 
 element.innerHTML
-
 
 The search functionality was examined by supplying various inputs through the search parameter.
 
