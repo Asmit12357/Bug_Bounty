@@ -6,7 +6,7 @@ Category: Cross-Site Scripting (XSS)
 
 Difficulty: Apprentice
 
-Objective: Exploit a DOM-based XSS vulnerability caused by user-controlled input from "location.search" being written directly to the page through the "document.write()" sink.
+Objective: Exploit a DOM-based XSS ulnerability caused by user-controlled input from "location.search" being written directly to the page through the "document.write()" sink.
 
 Vulnerability Description
 
