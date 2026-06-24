@@ -1,0 +1,33 @@
+Lab: DOM-based XSS in jQuery anchor href attribute sink using location.search source
+
+Summary
+
+This lab is vulnerable to DOM-based XSS because attacker-controlled data from location.search is read from the URL and written into the href attribute of an anchor tag using jQuery. Since the value is not sanitized, an attacker can inject a javascript: URI and execute code when the link is clicked.
+
+How the vulnerability works
+
+The page uses client-side JavaScript to read a parameter from the URL query string and assign it to the href attribute of a link.
+
+Typical vulnerable behavior:
+
+$('a').attr('href', returnPath)
+
+If returnPath comes from location.search, the attacker fully controls that value. Instead of a normal path, they can supply a JavaScript URI.
+
+Payload
+
+?returnPath=javascript:alert(document.cookie)
+
+Why the payload works
+
+The value from the query string is inserted directly into the anchor’s href. As a result, the link becomes something like:
+
+<a href="javascript:alert(document.cookie)">Back</a>
+
+When the victim clicks the link, the JavaScript runs in the browser.
+
+Key point
+
+This lab demonstrates that DOM XSS can happen through attributes, not just through sinks like innerHTML or document.write. If user-controlled input is written into sensitive attributes such as href, it can still lead to script execution.
+
+
