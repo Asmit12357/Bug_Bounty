@@ -1,0 +1,7 @@
+1) DOM XSS in AngularJS expression with angle brackets and double quotes HTML-encoded
+
+Summary
+This lab is vulnerable to DOM-based XSS because user input is reflected into an AngularJS template context, where Angular expressions are evaluated even though angle brackets and double quotes are HTML-encoded.
+
+Explanation
+The application places attacker-controlled input into the page in a context processed by AngularJS. Although characters like <, > and " are encoded, Angular still evaluates expressions inside {{ }}. By injecting an AngularJS expression such as {{$on.constructor('alert(1)')()}}, an attacker can execute JavaScript in the victim’s browser.
