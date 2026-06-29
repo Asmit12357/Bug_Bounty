@@ -1,0 +1,27 @@
+Lab Name: Reflected XSS with some SVG markup allowed
+
+Category: Cross-Site Scripting (XSS)
+
+Difficulty: Practitioner
+
+Objective: Exploit a reflected XSS vulnerability by injecting permitted SVG markup to execute JavaScript.
+
+Vulnerability Description
+
+The application reflects user input into the HTML response and applies an incomplete HTML filter. While common HTML elements are blocked, certain SVG tags and event handlers remain allowed, enabling JavaScript execution.
+
+Payload Used
+
+<svg><animatetransform onbegin=alert(1)>
+
+Exploitation Summary
+
+I used burp intruder specifically for this lab and learnt about how it works,I had a good amount of payloads to test so i tested them all from burp's provided XSS cheat list and used the ones who gave 200 The input was reflected into the page after partial sanitization. By using an allowed SVG element together with an event handler supported inside SVG, arbitrary JavaScript executed when the SVG animation started.
+
+Impact
+
+An attacker can execute arbitrary JavaScript in the victim's browser, allowing session hijacking, phishing, account takeover, or other client-side attacks.
+
+Key Takeaway
+
+Filtering individual HTML tags is insufficient for preventing XSS. Applications should perform context-aware output encoding and use a well-maintained HTML sanitizer instead of relying on blocklists.

@@ -1,0 +1,37 @@
+PortSwigger Web Security Academy Lab: Reflected XSS with Most Tags and Attributes Blocked
+
+Lab Overview
+
+Lab Name: Reflected XSS with Most Tags and Attributes Blocked
+
+Category: Cross-Site Scripting (XSS)
+
+Difficulty: Practitioner
+
+Objective: Exploit a reflected XSS vulnerability despite aggressive filtering of HTML tags and attributes.
+
+Vulnerability Description
+
+The application reflects user input into the HTML response while using a restrictive filter that blocks most HTML tags and attributes. However, a small number of permitted tags and event handlers remain accessible, allowing attackers to bypass the filter and execute JavaScript.
+
+Payload Used
+
+<iframe src="https://YOUR-EXPLOIT-SERVER-ID.exploit-server.net/exploit.html">
+
+Exploit Server Payload
+
+<script>
+<iframe src="https://YOUR-LAB-ID.web-security-academy.net/?search=%22%3E%3Cbody%20onresize=print()%3E" onload=this.style.width='100px'>
+</script>
+
+Exploitation Summary
+
+The application filtered nearly all HTML tags and attributes, making direct payload injection ineffective. By identifying an allowed event handler (onresize) and using an external exploit page to trigger the event automatically, arbitrary JavaScript executed in the victim's browser.
+
+Impact
+
+An attacker can execute arbitrary JavaScript in a victim's browser, leading to session hijacking, phishing attacks, account compromise, or other client-side attacks.
+
+Key Takeaway
+
+Even heavily filtered applications remain vulnerable if any executable event handlers or HTML elements are overlooked. Effective XSS prevention requires context-aware output encoding and robust sanitization rather than relying on blocklists of tags and attributes.
