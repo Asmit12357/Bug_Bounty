@@ -1,0 +1,29 @@
+Lab Name: Weak Isolation on Dual-Use Endpoint
+
+Category: Business Logic Vulnerabilities
+
+Difficulty: Practitioner
+
+Objective: Exploit insufficient separation between privileged and unprivileged functionality exposed through the same endpoint.
+
+Vulnerability Description
+
+The application uses a single endpoint to process requests for both normal users and administrators. Instead of enforcing strict server-side authorization for every action, the endpoint relies on client-controlled parameters to determine which operation should be performed. This allows attackers to invoke privileged functionality by manipulating requests.
+
+Exploitation Summary
+
+The account update functionality was intercepted using Burp Suite. While comparing requests, it was observed that both regular user actions and administrative actions were handled by the same endpoint.
+
+The intercepted request contained a parameter that determined the action to be performed. By modifying this parameter and replaying the request, the application executed functionality intended only for privileged users because the server failed to verify whether the authenticated user was authorized to perform the requested action.
+
+The vulnerability resulted from the application trusting the requested operation rather than validating the user's privileges on the server.
+
+Impact
+
+Attackers can access administrative functionality, modify protected resources, or perform privileged actions without proper authorization, leading to privilege escalation and compromise of application integrity.
+
+Key Takeaway
+
+Authorization must be enforced independently for every privileged operation. Sharing endpoints between different privilege levels is acceptable only when robust server-side access control is applied to each request.
+
+

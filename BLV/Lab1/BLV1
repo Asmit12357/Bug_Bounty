@@ -1,0 +1,23 @@
+Lab Name: Excessive Trust in Client-Side Controls
+
+Category: Business Logic Vulnerabilities
+
+Difficulty: Practitioner
+
+Objective: Exploit a business logic flaw caused by the server trusting values supplied by the client.
+
+Vulnerability Description
+
+The application relies on client-side controls to enforce pricing instead of validating values on the server. Sensitive parameters can be modified before being submitted, allowing attackers to manipulate the purchase process.
+
+Exploitation Summary
+
+The application transmitted pricing information in client-controlled requests. By intercepting the request with Burp Suite and modifying the price parameter before forwarding it, the server accepted the manipulated value and completed the purchase at an unauthorized price.
+
+Impact
+
+Attackers can purchase products at arbitrary prices, resulting in financial loss and bypass of intended business rules.
+
+Key Takeaway
+
+Applications must never trust client-supplied values for security-critical operations. All sensitive data, including product prices and discounts, should be validated and calculated exclusively on the server side.

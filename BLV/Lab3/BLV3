@@ -1,0 +1,23 @@
+Lab Name: Low-Level Logic Flaw
+
+Category: Business Logic Vulnerabilities
+
+Difficulty: Practitioner
+
+Objective: Exploit an arithmetic flaw caused by improper handling of numeric values.
+
+Vulnerability Description
+
+The application performs arithmetic operations without properly validating user-supplied numeric input. By submitting unexpected values, an attacker can manipulate calculations and bypass intended business restrictions.
+
+Exploitation Summary
+
+The purchase request was modified by supplying unexpected numeric values, causing the application's calculations to behave incorrectly. This allowed the purchase to proceed under conditions that should have been rejected.
+
+Impact
+
+Attackers can manipulate application logic to obtain products at incorrect prices or bypass financial controls, potentially resulting in revenue loss.
+
+Key Takeaway
+
+Applications should validate all numeric input and safely handle arithmetic operations to prevent logic flaws such as integer overflow, underflow, or unexpected calculation results.

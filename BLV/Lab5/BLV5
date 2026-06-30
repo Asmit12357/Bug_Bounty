@@ -1,0 +1,27 @@
+Lab Name: Insufficient Workflow Validation
+
+Category: Business Logic Vulnerabilities
+
+Difficulty: Practitioner
+
+Objective: Bypass mandatory business workflow checks by directly accessing later stages of a transaction.
+
+Vulnerability Description
+
+The application assumes users will complete actions in a predefined sequence but fails to verify that each prerequisite step has actually been completed. Since workflow state is not validated on the server, attackers can skip important validation stages and execute restricted operations directly.
+
+Exploitation Summary
+
+The complete purchase workflow was mapped using Burp Suite Proxy. Instead of following every step of the intended process, individual HTTP requests were intercepted and analyzed.
+
+After identifying the request responsible for completing the final transaction, this request was sent directly without completing one or more required intermediate steps. Because the server relied on the client to follow the intended workflow rather than validating the current transaction state, the request was accepted and processed successfully.
+
+The exploit involved replaying and modifying requests out of sequence, demonstrating that the application validated only the endpoint being accessed and not the overall business process.
+
+Impact
+
+An attacker can bypass mandatory verification steps, complete unauthorized transactions, abuse business processes, or access functionality that should only be available after satisfying previous workflow requirements.
+
+Key Takeaway
+
+Applications must validate the entire business workflow on the server. Every critical action should verify that all prerequisite steps have been completed successfully instead of assuming the client has followed the intended sequence.

@@ -1,0 +1,26 @@
+Lab Overview
+
+Lab Name: Flawed Enforcement of Business Rules
+
+Category: Business Logic Vulnerabilities
+
+Difficulty: Apprentice
+
+Objective: Exploit improper enforcement of business rules to obtain products at an unintended price.
+
+Vulnerability Description
+
+The application fails to enforce its business rules consistently on the server. By abusing the intended purchasing process, an attacker can manipulate discounts and pricing to buy products at a lower cost than intended.
+
+Exploitation Summary
+
+The shopping workflow was analyzed to identify weaknesses in the discount mechanism. By manipulating the order process and abusing the business logic, excessive discounts were applied, allowing products to be purchased below their intended price.
+
+Impact
+
+An attacker can bypass pricing restrictions, resulting in unauthorized discounts and financial loss to the application owner.
+
+Key Takeaway
+
+Business rules such as pricing, discounts, and purchase limits must always be enforced and validated on the server. Client-side restrictions alone are insufficient.
+
