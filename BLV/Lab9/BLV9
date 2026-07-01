@@ -1,0 +1,49 @@
+Lab Name: Authentication bypass via flawed state machine
+Category: Business Logic Vulnerabilities
+Difficulty: Expert
+Objective: Exploit incorrect application state transitions to access authenticated functionality without completing the normal login process.
+
+Vulnerability Description
+
+The application assumes users move through authentication steps in a fixed order. By manipulating requests or navigating directly to specific endpoints, an attacker can place the application into an unexpected state where authentication checks are skipped.
+
+This is a business logic flaw caused by improper enforcement of application state.
+
+Exploitation Steps
+
+1. Observe the normal authentication workflow using Burp Suite.
+
+
+2. Identify the requests responsible for changing the user's role and drop the get request by stopping all the requests after logging in 
+
+
+3. Only POST request will be sent and GET will br dropped leading to loss of any role assigning hence application assigns admin role by default giving admin privileges.
+
+4. Leading to access of protected functionality without successfully completing authentication.
+
+
+5. Verify unauthorized access and solve the lab.
+
+Impact
+
+Authentication bypass.
+
+Unauthorized access to protected resources.
+
+Privilege escalation.
+
+Compromise of application security.
+
+Root Cause
+
+The application relies on assumptions about the order of operations instead of verifying authentication status on every protected request.
+
+Remediation
+
+Validate authentication and authorization on every request.
+
+Enforce strict server-side state transitions.
+
+Prevent users from skipping required workflow steps.
+
+Reject requests that do not follow the expected authentication sequence.

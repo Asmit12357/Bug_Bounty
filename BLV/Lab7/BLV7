@@ -1,0 +1,51 @@
+Lab Name: Infinite money logic flaw
+Category: Business Logic Vulnerabilities
+Difficulty: Expert
+Objective: Exploit flaws in the gift card, refund, and store-credit workflow to generate unlimited store credit.
+
+Vulnerability Description
+
+The application contains a flaw in its store-credit workflow that allows the same financial value to be credited multiple times. By abusing the interaction between purchasing gift cards, redeeming them, and requesting refunds, an attacker can continuously increase their account balance.
+
+Unlike technical vulnerabilities such as SQL injection, this attack abuses incorrect business processes.
+
+Exploitation Steps
+
+1. Purchase a gift card of $10 using available store credit.
+
+
+2. Apply 30% discount using code SIGNUP30
+
+
+3. You are paying $7 for buying a gift card of $10
+
+
+4. Buy as many as you can and then claim all the codes using Intruder payload list of gift card codes
+
+
+5. Repeat the workflow to continually increase your balance.
+
+
+6. Use the unlimited store credit to purchase the target item.
+
+Impact
+
+Generate unlimited store credit.
+
+Purchase any product without legitimate payment.
+
+Severe financial losses.
+
+Abuse of refunds and promotional systems.
+
+Complete compromise of the application's payment logic.
+
+Root Cause
+
+The application fails to maintain a consistent financial state across related operations. Gift card redemption and refund processing are treated as independent events, allowing the same value to be counted multiple times.
+
+Remediation
+
+Prevent coupon application on a gift card.
+
+Perform server-side integrity checks across purchase, redemption, and refund workflows before updating account balances.

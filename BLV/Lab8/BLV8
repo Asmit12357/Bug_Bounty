@@ -1,0 +1,54 @@
+Lab Name: Inconsistent handling of exceptional input
+Category: Business Logic Vulnerabilities
+Difficulty: Practitioner
+Objective: Exploit inconsistent validation of unusually long or malformed input to bypass security controls and gain unauthorized access.
+
+Vulnerability Description
+
+The application processes user input differently across multiple components. One part of the application accepts an exceptionally long or malformed value, while another truncates or interprets it differently. This inconsistency allows an attacker to bypass validation checks and register or modify an account in an unintended way.
+
+The vulnerability exists because security decisions rely on inconsistent input handling rather than a single, validated representation of the data.
+
+Exploitation Steps
+
+1. Identify an input field (HERE an email address) that is processed by application with truncation.
+
+
+2. Submit an exceptionally long or specially crafted value.
+
+
+3. Observe how different parts of the application handle the input (for example, one component truncates it while another does not).
+
+
+4. Notice that the /admin can be accessed only by mails ending with @dontwannacry.com,Exploit the inconsistency to bypass validation and register or gain access with a privileged identity.
+
+
+5. Log in using the newly created account and solve the lab.
+
+Payload
+
+email=verylongemail...[padding]...@dontwannacry.com.youremail-clientmail
+
+Impact
+
+Bypass registration restrictions.
+
+Unauthorized account creation.
+
+Potential account takeover.
+
+Circumvention of business rules and security checks.
+
+Root Cause
+
+Different application components validate or normalize user input inconsistently. Security decisions are made before all components interpret the input identically.
+
+Remediation
+
+Use centralized input validation.
+
+Normalize input before performing security checks.
+
+Apply identical validation rules across all components.
+
+Reject malformed or excessively long inputs.

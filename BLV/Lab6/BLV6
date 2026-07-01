@@ -1,0 +1,58 @@
+Lab Name: High-level logic vulnerability
+Category: Business Logic Vulnerabilities
+Difficulty: Apprentice
+Objective: Exploit a flaw in the shopping cart that allows negative quantities, resulting in an order with a negative total.
+
+Vulnerability Description
+
+The application fails to validate item quantities correctly. It accepts negative values when updating the cart, allowing the user to reduce the total order price by adding a negative quantity of an expensive item.
+
+This is a business logic flaw, not an input validation issue. The application performs calculations without enforcing the business rule that product quantities must always be positive.
+
+Exploitation Steps
+
+1. Add a cheap product to the shopping cart.
+
+
+2. Add an expensive product to the cart.
+
+
+3. Intercept the request that updates product quantities using Burp Suite.
+
+
+4. Modify the quantity of the expensive product to a negative value (for example, -1).
+
+
+5. Forward the request.
+
+
+6. The cart total becomes negative or significantly reduced.
+
+
+7. Complete the purchase by adding enough items as you desire to make the overall balance positive and    within your store credit hence complete the purchase using the available store credit.
+
+Impact
+
+Purchase expensive products for free or at a heavily discounted price.
+
+Manipulate order totals.
+
+Financial loss for the application.
+
+Bypass intended purchasing restrictions.
+
+Root Cause
+
+The server trusts user-supplied quantity values and performs price calculations without validating that quantities are positive integers. Critical business rules are enforced incorrectly.
+
+Remediation
+
+Reject zero or negative quantities on the server.
+
+Validate quantity ranges before calculating totals.
+
+Recalculate prices server-side using trusted values.
+
+Implement business rule validation before checkout.
+
+
