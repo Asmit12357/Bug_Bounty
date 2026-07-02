@@ -1,0 +1,53 @@
+Lab Name: File Path Traversal, Traversal Sequences Stripped Non-Recursively
+
+Category: Path Traversal
+
+Difficulty: Practitioner
+
+Objective: Retrieve the contents of the /etc/passwd file by bypassing non-recursive traversal sequence stripping.
+
+Vulnerability Description
+
+The application attempts to sanitize user input by removing traversal sequences (../). However, this filtering is performed only once (non-recursively). By supplying overlapping traversal sequences, the remaining characters form valid traversal sequences after the initial stripping, allowing directory traversal.
+
+Exploitation Steps
+
+1. Open a product page and intercept the image request using Burp Suite.
+
+
+2. Send the request to Repeater.
+
+
+3. Locate the filename parameter.
+
+
+4. Replace its value with the following payload:
+
+
+
+....//....//....//etc/passwd
+
+5. Send the request.
+
+
+6. The application strips the first occurrence of traversal patterns, leaving valid ../ sequences that resolve to /etc/passwd, returning the file contents and completing the lab.
+
+Payload
+
+GET /image?filename=....//....//....//etc/passwd HTTP/1.1
+
+Why the Attack Works
+
+The application removes traversal sequences only once. The payload ....// is crafted so that after the first filtering pass, it becomes ../. Because no further sanitization occurs, the remaining traversal sequences are processed by the operating system, allowing access to directories outside the intended location.
+
+Mitigation
+
+Normalize the requested path before validation.
+
+Perform canonical path validation rather than string replacement.
+
+Restrict file access to an allowlisted directory.
+
+Reject any input containing traversal attempts after normalization.
+
+Avoid relying on simple string replacement as a security control.

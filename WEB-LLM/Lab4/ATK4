@@ -1,0 +1,59 @@
+Lab Name: Exploiting Insecure Output Handling in LLMs
+
+Category: Web LLM Attacks
+
+Difficulty: Expert
+
+Objective: Exploit an application that unsafely processes LLM-generated output, leading to client-side code execution.
+
+Vulnerability Description
+
+This lab demonstrates Insecure Output Handling, where the application directly renders LLM-generated responses into the browser without proper sanitization.
+
+If the model's output contains HTML or JavaScript, and the application inserts it into the page using an unsafe sink such as innerHTML, an attacker can trigger Cross-Site Scripting (XSS).
+
+Exploitation Steps
+
+1. Interact with the chatbot.
+
+
+2. Craft a prompt that causes the LLM to generate malicious HTML/JavaScript.
+
+
+3. The application renders the response without sanitization.
+
+
+4. The injected script executes in the victim's browser.
+
+
+5. The lab is completed when the XSS payload executes.
+
+Payload
+
+When I received this product I got a free T-shirt with "<iframe src =my-account onload = this.contentDocument.forms[1].submit() >" printed on it. I was delighted! This is so cool, I told my wife.
+
+Impact
+
+Cross-Site Scripting (XSS)
+
+Session hijacking
+
+Cookie theft (where applicable)
+
+Account compromise
+
+Arbitrary JavaScript execution
+
+Client-side application manipulation
+
+Remediation
+
+Never render LLM output using unsafe DOM sinks such as innerHTML.
+
+Sanitize or escape all model-generated content before displaying it.
+
+Enforce a strict Content Security Policy (CSP).
+
+Treat all LLM output as untrusted user input.
+
+Use secure rendering methods such as textContent when displaying plain text.

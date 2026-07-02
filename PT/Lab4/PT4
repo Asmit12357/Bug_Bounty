@@ -1,0 +1,54 @@
+Lab Name: File Path Traversal, Validation of File Extension with Null Byte Bypass
+
+Category: Path Traversal
+
+Difficulty: Practitioner
+
+Objective: Retrieve the contents of the /etc/passwd file by bypassing file extension validation using a URL-encoded null byte.
+
+Vulnerability Description
+
+The application validates that the requested filename ends with the .png extension before accessing the file. However, it fails to handle URL-encoded null bytes correctly. By injecting a null byte (%00) before the required extension, the underlying filesystem treats the null byte as the end of the filename, causing the appended .png to be ignored.
+
+Exploitation Steps
+
+1. Open a product page and intercept the image request using Burp Suite.
+
+
+2. Send the request to Repeater.
+
+
+3. Locate the filename parameter.
+
+
+4. Replace its value with the following payload:
+
+
+
+../../../etc/passwd%00.png
+
+5. Send the request.
+
+
+6. The application validates the .png extension, but the null byte truncates the filename during file access, allowing the server to return the contents of /etc/passwd and solve the lab.
+
+Payload
+
+GET /image?filename=../../../etc/passwd%00.png HTTP/1.1
+
+Why the Attack Works
+
+The application only checks whether the supplied filename ends with .png. When %00 is decoded into a null byte, the underlying filesystem interprets it as the end of the string. Consequently, the effective filename becomes ../../../etc/passwd, while the .png extension is ignored, bypassing the validation.
+
+
+Mitigation
+
+Use modern APIs that safely handle string termination.
+
+Canonicalize and validate file paths before access.
+
+Reject null byte (%00) characters in user input.
+
+Restrict file access to an allowlisted directory.
+
+Do not rely solely on file extension validation for security.

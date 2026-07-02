@@ -1,0 +1,51 @@
+Lab Name: File Path Traversal, Validation of Start of Path
+
+Category: Path Traversal
+
+Difficulty: Practitioner
+
+Objective: Retrieve the contents of the /etc/passwd file by bypassing path validation that only checks the beginning of the supplied path.
+
+Vulnerability Description
+
+The application validates that the supplied filename starts with the expected image directory (such as /var/www/images/). However, it does not properly normalize the path before accessing the file. By specifying the allowed directory followed by directory traversal sequences, an attacker can escape the intended directory and access arbitrary files on the server.
+
+Exploitation Steps
+
+1. Open a product page and intercept the image request using Burp Suite.
+
+
+2. Send the request to Repeater.
+
+
+3. Locate the filename parameter.
+
+
+4. Replace its value with the following payload:
+
+
+
+/var/www/images/../../../etc/passwd
+
+5. Send the request.
+
+
+6. The application accepts the input because it begins with the expected directory, but the operating system resolves the traversal sequences and returns the contents of /etc/passwd, completing the lab.
+
+Payload
+
+GET /image?filename=/var/www/images/../../../etc/passwd HTTP/1.1
+
+Why the Attack Works
+
+The application only verifies that the supplied path starts with /var/www/images/. It does not normalize the path before validation or ensure the final resolved path remains inside the intended directory. As a result, the ../../../ sequences escape the allowed directory and access /etc/passwd.
+
+Mitigation
+
+Canonicalize the requested path before validation.
+
+Verify that the resolved path remains within the intended directory.
+
+Use an allowlist of permitted filenames.
+
+Avoid relying solely on prefix-based path validation.

@@ -1,0 +1,52 @@
+Lab Name: File Path Traversal, Traversal Sequence Blocked with Absolute Path Bypass
+
+Category: Path Traversal
+
+Difficulty: Practitioner
+
+Objective: Retrieve the contents of the /etc/passwd file by bypassing the application's traversal protection using an absolute file path.
+
+Vulnerability Description
+
+The application attempts to prevent directory traversal attacks by blocking traversal sequences such as ../. However, it fails to validate absolute file paths. Instead of navigating outside the intended directory using traversal sequences, an attacker can directly specify an absolute path to access sensitive files on the server.
+
+Exploitation Steps
+
+1. Open the product page and intercept the image request in Burp Suite.
+
+
+2. Send the request to Repeater.
+
+
+3. Locate the filename parameter.
+
+
+4. Replace its value with the absolute Linux file path:
+/etc/passwd
+
+5. Send the request.
+
+
+6. The server returns the contents of the /etc/passwd file, solving the lab.
+
+Payload
+
+GET /image?filename=/etc/passwd HTTP/1.1
+
+
+Why the Attack Works
+
+The application filters directory traversal sequences but does not restrict absolute file paths. Since /etc/passwd is a valid absolute path on Linux systems, the server accesses the file directly without requiring any traversal sequences, bypassing the implemented protection.
+
+
+Mitigation
+
+Restrict file access to a predefined directory.
+
+Validate filenames using an allowlist.
+
+Reject absolute paths.
+
+Resolve canonical paths and verify they remain within the intended directory.
+
+Avoid using user-controlled input directly in filesystem operations.
