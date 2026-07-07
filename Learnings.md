@@ -49,4 +49,6 @@ Path normalization:
 /api/v5/users/9 => 404
 /api/v5/users/%209 => 200
 
+##XSS
+
 
