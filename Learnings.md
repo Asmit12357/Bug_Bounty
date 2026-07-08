@@ -49,6 +49,15 @@ Path normalization:
 /api/v5/users/9 => 404
 /api/v5/users/%209 => 200
 
-##XSS
+## XSS
+
+
+
+## API-Testing
+Always try editing the request
+/api/v5/users/carlos => 200 
+/api/v5/users => 400
+/api=> 303
+Open this response into browser and you may access documentation with functionalities  
 
 
