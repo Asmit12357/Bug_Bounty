@@ -58,6 +58,9 @@ Always try editing the request
 /api/v5/users/carlos => 200 
 /api/v5/users => 400
 /api=> 303
-Open this response into browser and you may access documentation with functionalities  
+Open this response into browser and you may access documentation with functionalities 
+
+Try swapping GET into OPTIONS AND PATCH type.
+
 
 
